@@ -51,7 +51,7 @@ require_once(__DIR__.'/includes/utils.php');
 			if (file_exists(UPLOAD_PHOTOS.$ligne['screenshot']))
 				$url_screenshot = SITE_IMAGES.$ligne['screenshot'];
 			else //Sinon s'il n'existe pas on met une image par défaut
-				$url_screenshot = SITE_IMAGES.'defaut.png';
+				$url_screenshot = SITE_IMAGES.'unverified.gif';
 		?>	
 			<tr>
 				<td><img src="<?php echo $url_screenshot; ?>" class="screenshot" alt="screenshot" /></td>
