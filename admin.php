@@ -41,7 +41,7 @@ require_once(__DIR__.'/includes/utils.php');
 			</tr>
 		<?php
 		
-		
+		//Liste des scores
 		while ($ligne = mysqli_fetch_array($res)) {
 		?>	
 			<tr>
@@ -55,7 +55,7 @@ require_once(__DIR__.'/includes/utils.php');
 				else //Sinon s'il n'existe pas on met une image par défaut
 					$url_screenshot = SITE_IMAGES.'defaut.png';
 				
-					echo'<td><img src="'.$url_screenshot.'" alt="screenshot" class="screenshot"/></td>';			
+				echo'<td><img src="'.$url_screenshot.'" alt="screenshot" class="screenshot"/></td>';			
 				
 				?>
 				<td><a href="score-supprimer.php?id=<?php echo $ligne['id']; ?>">Supprimer</a></td>
