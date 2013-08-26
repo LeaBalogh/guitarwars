@@ -61,7 +61,6 @@ require_once(__DIR__.'/includes/utils.php');
 			</tr>	
 		
 		<?php
-		//Fin boucle
         } while ($ligne = mysqli_fetch_array($res));
 		
 		//Fermeture de la connexion
