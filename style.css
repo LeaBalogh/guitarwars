@@ -1,0 +1,36 @@
+.error {
+	font-weight: bold;
+	color: #FF0000;
+}
+
+table, tr, th, td {
+	border-collapse: collapse;
+	border: 1px solid black;
+}
+
+th {
+	background-color: black;
+	color: white;
+}
+
+td, th {
+	padding: 2px 4px;
+}
+
+td.topscore {
+	background-color: orange;
+	color: white;
+	font-weight: bold;
+	text-align: center;
+	font-size:2em;
+}
+
+table caption {
+	font-weight: bold;
+	font-size: 1.8em;
+	margin-bottom:.5em;
+}
+
+img.screenshot {
+	height: 80px;
+}
