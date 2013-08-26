@@ -46,10 +46,7 @@ function score_charger($id)
 function score_controle($tab_score)
 {
 	//Initialisation du tableau des erreurs
-	$erreurs = array();
-	
-	//Liste des types valides
-	$types_valides = 'image/gif;image/jpeg;image/pjpeg;image/png';
+	$erreurs = array();	
 	
 	//Nom du joueur
 	if(!isset($tab_score['nom']) or strlen($tab_score['nom']) < 4)
@@ -65,14 +62,13 @@ function score_controle($tab_score)
 		return $erreurs; //on s'arrête la car les autres tests portent uniquement sur le fichier uploadé
 	}
 
- 	//Si le fichier n'est pas du bon type ou trop grand
-	/*
-	fonction stripos($chaineSource, $chaineRecherchée) 	
-		- Recherche la position de $chaineRecherchée dans $chaineSource, sans tenir compte de la casse
-		- Notez également que la position dans $chaineSource commence à 0, et non pas à 1.
-		- Retourne FALSE si $chaineRecherchée n'a pas été trouvée.
-	*/
-	if(stripos($types_valides, $_FILES['screenshot']['type'])===FALSE or $_FILES['screenshot']['size'] > UPLOAD_MAX_SIZE)
+    //Liste des extensions valides
+    $upload_extensions_valides = array( 'jpg' , 'jpeg', 'png' ); 
+    //Extension du fichier uploadé
+    $upload_extension = pathinfo($_FILES['screenshot']['name'], PATHINFO_EXTENSION);
+             
+    //Si extension pas valide
+    if(!in_array($upload_extension,$upload_extensions_valides))
 		$erreurs[] = 'Votre screenshot n\'est pas valide !';		
 	
 	return $erreurs;
