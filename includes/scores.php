@@ -86,7 +86,7 @@ function score_ajouter($tab_score)
 	//Connexion à la BD
 	$cnx = bd_connexion();
 	
-	//Préparation des données
+	//Préparation des données : cast, échappement
 	$score 		= (int) $tab_score['score']; //Cast en entier
 	$nom 		= mysqli_real_escape_string($cnx, $tab_score['nom']);
 	$screenshot = mysqli_real_escape_string($cnx, $_FILES['screenshot']['name']); //Nom du fichier
