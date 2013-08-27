@@ -79,19 +79,25 @@ function score_controle($tab_score)
 * Ajoute un score dans la base de données 
 *
 * @param	array	Données du score, généralement la superglobale $_POST
-* @return	int		le nombre d'enregistrements modifiés
+* @return	int		le nombre d'enregistrements modifiés, 0 si erreur
 */
 function score_ajouter($tab_score)
 {
+	//Génération d'un identifiant unique pour le nom du screenshot. Nom préfixé de "photo_"
+    $screenshot = uniqid('photo_').".".pathinfo($_FILES['screenshot']['name'], PATHINFO_EXTENSION); 
+    
+    //Copie du screenshot dans le dossier images
+	if(!move_uploaded_file($_FILES['screenshot']['tmp_name'], UPLOAD_PHOTOS.$screenshot))
+        return 0;
+    
 	//Connexion à la BD
 	$cnx = bd_connexion();
 	
 	//Préparation des données : cast, échappement
 	$score 		= (int) $tab_score['score']; //Cast en entier
 	$nom 		= mysqli_real_escape_string($cnx, $tab_score['nom']);
-	//Génération d'un identifiant unique pour le nom du screenshot préfixé de "photo_"
-	$screenshot = uniqid('photo_').".".pathinfo($_FILES['screenshot']['name'], PATHINFO_EXTENSION);
 	
+    //Ajout du score
 	$req = "INSERT INTO score VALUES (0, NOW(), '$nom', $score,'$screenshot',0)";
 	bd_requete($cnx, $req);
 	
