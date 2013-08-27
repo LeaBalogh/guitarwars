@@ -2,39 +2,38 @@
 //Inclusion des librairies
 require_once(__DIR__.'/includes/utils.php');
 
-// Si la page est appelée par le formulaire
+// Page appelée par le formulaire ?
 if (isset($_POST['submit']))
 {    		
 	// Contrôle des données du formulaire
-	if(!$erreurs = score_controle($_POST)) //Si pas d'erreur de saisie et screenshot valide
-			//Insertion des données dans la BD
+	if($erreurs = score_controle($_POST))
+	{
+			//Ajout du score dans la BD
 			if($id_score = score_ajouter($_POST)) // Si ajout ok
 			{
-				// Copie du screenshot		
-				if(move_uploaded_file($_FILES['screenshot']['tmp_name'], UPLOAD_PHOTOS.$_FILES['screenshot']['name']))
+				//Charge les infos du nouveau score pour récupérer le nom unique du fichier
+				$score = score_charger($id_score);
+                    
+				// Copie du screenshot dans le dossier images	
+				if(move_uploaded_file($_FILES['screenshot']['tmp_name'], UPLOAD_PHOTOS.$score['screenshot']))
 				{
-					//Suppression du fichier temporaire
-					@unlink($_FILES['screenshot']['tmp_name']);	
 					//Construction du message de confirmation
 					$message = urlencode("Votre score a été ajouté !");	
 					//Redirection vers la page d'accueil
 					header("Location:".SITE_HTTP."index.php?message=$message");
-					exit;
+					exit; //Fin
 				}
-				else //Si problème lors de la copie
-				{
-					//On supprime le score de la BD
+				else					
 					score_supprimer($id_score);
-					//Message d'erreur
-					$erreurs[] = "Erreur lors de la copie du screenshot";
-				}
-			}
-	
-	//Dans tous les cas on supprime le fichier temporaire
-	@unlink($_FILES['screenshot']['tmp_name']);
-    
-    // Réinitialise les valeurs par défaut du formulaire
-    // avec les valeurs précédemment saisies par l'utilisateru
+				
+		      }           
+              //Si problème lors de l'ajout ou de la copie 
+              $erreurs[] = "Ajout impossible pour l'instant, merci de réessayer ultérieurement !";
+           
+    }
+        
+    //Récuéprer les données saisies et les mettre
+    //comme valeur par défaut du formulaire
     $form_nom = $_POST['nom'];
     $form_score = $_POST['score'];           
 }

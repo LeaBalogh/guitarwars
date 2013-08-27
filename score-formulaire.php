@@ -10,7 +10,7 @@
         <p><a href="<?php echo SITE_HTTP; ?>index.php">&lt;&lt; Retourner aux meilleurs scores</a></p>
 		
 		<?php 
-		//Affichage des erreurs
+		//Afficher message d'erreur
 		if(isset($erreurs) and count($erreurs)>0)
 		{
 			$liste_erreurs = "<ul>";

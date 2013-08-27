@@ -89,21 +89,18 @@ function score_ajouter($tab_score)
 	//Préparation des données : cast, échappement
 	$score 		= (int) $tab_score['score']; //Cast en entier
 	$nom 		= mysqli_real_escape_string($cnx, $tab_score['nom']);
-	$screenshot = mysqli_real_escape_string($cnx, $_FILES['screenshot']['name']); //Nom du fichier
+	//Génération d'un identifiant unique pour le nom du screenshot préfixé de "photo_"
+	$screenshot = uniqid('photo_').".".pathinfo($_FILES['screenshot']['name'], PATHINFO_EXTENSION);
 	
 	$req = "INSERT INTO score VALUES (0, NOW(), '$nom', $score,'$screenshot',0)";
-	
-	//Exécution de la requête
 	bd_requete($cnx, $req);
 	
-	//Récupère l'id du dernier enregistrement créé
-	$res = mysqli_insert_id($cnx);
-	
-	//Fermeture de la connexion
+	//Test si enrregistrement ok en récupérant l'id
+	$id = mysqli_insert_id($cnx);        
 	bd_ferme($cnx);
 	
 	//Retourne le nobmre de résultats ajoutés
-	return $res;
+	return $id;
 }
 
 
@@ -132,34 +129,27 @@ function score_valider($id)
 * Supprime un score dans la base de données 
 *
 * @param	int		Id du score à supprimer
+* @param    sting   nom du fichier screenshot
 * @return	int		le nombre d'enregistrements supprimés
 */
-function score_supprimer($id)
-{		
+function score_supprimer($id,$screenshot)
+{        		
 	$cnx = bd_connexion();
 	
 	$requete = "DELETE FROM score WHERE id = $id LIMIT 1";
 			
 	bd_requete($cnx, $requete);
 	
-	$res = mysqli_affected_rows($cnx);
-
+    $res = mysqli_affected_rows($cnx);
+    
+    //Si la suppression et ok, et que le fichier screenshot existe
+	if($res and !empty($screenshot) and is_file(UPLOAD_PHOTOS.$screenshot))                               
+       unlink(UPLOAD_PHOTOS.$screenshot);
+   
 	bd_ferme($cnx);
 	
+    //Retourne le nombre de résultats supprimés
 	return $res;
-}
-
-/**
-* Supprime le fichier du screenshot lié à un score
-*
-* @param	int		Id du score
-*/
-function score_supprimer_screenshot($id)
-{		
-	//Récupère les informations du client dans la BD
-	$score = score_charger($id);
-	//Supprime le fichier
-	@unlink(UPLOAD_PHOTOS.$score['screenshot']);
 }
 
 

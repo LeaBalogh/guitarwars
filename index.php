@@ -50,7 +50,7 @@ require_once(__DIR__.'/includes/utils.php');
 			//Test si un screenshot existe pour ce résultat
 			//Ne pas utiliser file_exists() car si pas de nom d'image 
 			//on testera le nom du dossier et il existe donc la fonction retournera VRAI
-			if (is_file(UPLOAD_PHOTOS.$ligne['screenshot'])) 
+			if (!empty($ligne['screenshot']) and is_file(UPLOAD_PHOTOS.$ligne['screenshot'])) 
 				$url_screenshot = SITE_IMAGES.$ligne['screenshot'];
 			else //Sinon s'il n'existe pas on met une image par défaut
 				$url_screenshot = SITE_IMAGES.'unverified.gif';
