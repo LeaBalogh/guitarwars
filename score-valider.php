@@ -47,7 +47,7 @@ if(strlen($_GET['id']))
         </p>
         <?php    
             //Si un screenshot existe --> on l'affiche
-            if(!empty($score['screenshot']))
+             if(!empty($score['screenshot']) and is_file(UPLOAD_PHOTOS.$score['screenshot']))
                 echo '<p><img src="'.SITE_IMAGES.$score['screenshot'].'" alt="screenshot"/></p>';
         ?>    
             <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
