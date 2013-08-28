@@ -19,12 +19,10 @@ error_reporting(E_ALL ^ E_NOTICE);
                 <input type="submit" name="submit" />          
         </form>
         <?php
-            //var_dump($_POST);
-         
             //Si pas de formulaire envoyé, on stoppe.
-            if(!empty($_POST))
+            if(empty($_POST))
                 exit("</body></html>"); 
-            echo "test";
+            
             //Si aucune case cochée
             if(empty($_POST['choix']))
                  exit ("<h1>Choisir au moins une couleur !</h1></body></html>");
