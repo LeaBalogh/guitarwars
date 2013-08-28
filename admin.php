@@ -17,12 +17,9 @@ require_once(__DIR__.'/includes/utils.php');
 		if(isset($_GET['message']))
 			echo '<p>'.$_GET['message'].'</p>';
 		
-		//Connexion
-		$cnx = bd_connexion();
-
-		//Sélection des scores
-		$req = "SELECT * FROM score ORDER BY score DESC, date ASC";
-		$res = bd_requete($cnx, $req);
+		
+        //Liste des scores
+		$res = score_liste(true);
 		
 		//Si aucun résultat
 		if(mysqli_num_rows($res) < 1)
@@ -70,8 +67,6 @@ require_once(__DIR__.'/includes/utils.php');
 			</tr>	
 		<?php	
 		} //Fin boucle while 
-		
-		bd_ferme($cnx);
 	?>
 		</table>
 	</body>

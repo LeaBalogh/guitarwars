@@ -7,6 +7,35 @@
  * @version		12.05.2013 * 
  */
 
+/**
+* Sélectionne un score dans la BD et retourne ses données
+*
+* @param    boolean Faut-il afficher les score invalides, par défaut non
+* @param    string  Tri de la requête, par défaut score >, date <
+* @return   array   Tableau associatif contenant les données du score, ou false
+*/
+function score_liste($afficher_scores_invalides=false,$tri="score DESC, date ASC")
+{
+    //Connexion à la BD
+    $cnx = bd_connexion();
+    
+    //Préparation de la requête
+    $requete = "SELECT * FROM score";
+    
+    if(!$afficher_scores_invalides) 
+        $requete .=" WHERE valider = 1"; 
+    
+    $requete .=" ORDER BY $tri";
+         
+    //Exécution de la requête
+    $res = bd_requete($cnx, $requete);
+    
+    //Fermeture de la connexion
+    bd_ferme($cnx);    
+   
+    return $res;
+}
+
 
 /**
 * Sélectionne un score dans la BD et retourne ses données

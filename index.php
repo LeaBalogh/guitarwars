@@ -19,12 +19,8 @@ require_once(__DIR__.'/includes/utils.php');
 		if(isset($_GET['message']))
 			echo '<p>'.$_GET['message'].'</p>';
 		
-		//Connexion
-		$cnx = bd_connexion();
-		
-		//Sélection des scores triés par score et date
-		$req = "SELECT * FROM score WHERE valider = 1 ORDER BY score DESC, date ASC";
-		$res = bd_requete($cnx, $req);
+		//Récupère la liste des scores
+		$res = score_liste();
 		
 		//Si aucun résultat
 		if(mysqli_num_rows($res) < 1)
@@ -64,9 +60,7 @@ require_once(__DIR__.'/includes/utils.php');
 		
 		<?php
         } while ($ligne = mysqli_fetch_array($res));
-		
-		//Fermeture de la connexion
-		bd_ferme($cnx);
+
 		?>
 		</table>
 	</body>
