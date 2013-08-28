@@ -30,6 +30,7 @@ if(strlen($_GET['id']))
 		header("Location: ".SITE_HTTP."admin.php?message=$message");
 		exit;
 	}
+    
 ?><!DOCTYPE html>
 <html lang="fr">
 	<head>
