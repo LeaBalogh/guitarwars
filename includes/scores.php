@@ -10,32 +10,27 @@
 /**
 * Sélectionne un score dans la BD et retourne ses données
 *
-* @param    boolean Faut-il afficher les score invalides, par défaut non
-* @param    string  Tri de la requête, par défaut score >, date <
-* @return   array   Tableau associatif contenant les données du score, ou false
+* @param    boolean     Faut-il afficher les score invalides, par défaut non
+* @param    string      Tri de la requête, par défaut score >, date <
+* @return   array       Tableau associatif contenant les données du score, ou false
 */
-function score_liste($afficher_scores_invalides=false,$tri="score DESC, date ASC")
+function score_liste($afficher_invalides=false,$tri="score DESC, date ASC")
 {
-    //Connexion à la BD
-    $cnx = bd_connexion();
-    
-    //Préparation de la requête
+    $cnx = bd_connexion();    
+ 
     $requete = "SELECT * FROM score";
     
-    if($afficher_scores_invalides==false) 
+    if($afficher_invalides==false) 
         $requete .=" WHERE valider = 1"; 
     
     $requete .=" ORDER BY $tri";
          
-    //Exécution de la requête
     $res = bd_requete($cnx, $requete);
     
-    //Fermeture de la connexion
     bd_ferme($cnx);    
    
     return $res;
 }
-
 
 /**
 * Sélectionne un score dans la BD et retourne ses données
@@ -45,21 +40,17 @@ function score_liste($afficher_scores_invalides=false,$tri="score DESC, date ASC
 */
 function score_charger($id)
 {
-	//Connexion à la BD
 	$cnx = bd_connexion();
 	
-	//Préparation de la requête
 	$requete = "SELECT * FROM score
 				WHERE id = $id
 				LIMIT 1"; 
 			
-	//Exécution de la requête
 	$res = bd_requete($cnx, $requete);
 	
-	//Fermeture de la connexion
 	bd_ferme($cnx);
 	
-	//Si un résultat a été trouvé
+	//Si un résultat a été trouvé, on le retourne
 	if(mysqli_num_rows($res))
 		return mysqli_fetch_assoc($res);
 	
@@ -99,46 +90,45 @@ function score_controle($tab_score)
              
     //Si extension pas valide
     if(!in_array($upload_extension,$upload_extensions_valides))
-		$erreurs[] = 'Votre screenshot n\'est pas valide !';		
+		$erreurs[] = 'Votre screenshot n\'est pas valide !';
 	
 	return $erreurs;
 }
-
 
 /**
 * Ajoute un score dans la base de données 
 *
 * @param	array	Données du score, généralement la superglobale $_POST
-* @return	int		le nombre d'enregistrements modifiés, 0 si erreur
+* @return	int		l'id de l'enregistrement créé, 0 si erreur
 */
 function score_ajouter($tab_score)
 {
 	//Génération d'un identifiant unique pour le nom du screenshot. Nom préfixé de "photo_"
     $screenshot = uniqid('photo_').".".pathinfo($_FILES['screenshot']['name'], PATHINFO_EXTENSION); 
     
-    //Copie du screenshot dans le dossier images
+    //Copie du screenshot dans le dossier images. 
+    //Si erreur de transfert on retourne 0
 	if(!move_uploaded_file($_FILES['screenshot']['tmp_name'], UPLOAD_PHOTOS.$screenshot))
         return 0;
     
-	//Connexion à la BD
 	$cnx = bd_connexion();
-	
+    	
 	//Préparation des données : cast, échappement
 	$score 		= (int) $tab_score['score']; //Cast en entier
 	$nom 		= mysqli_real_escape_string($cnx, $tab_score['nom']);
 	
-    //Ajout du score
-	$req = "INSERT INTO score VALUES (0, NOW(), '$nom', $score,'$screenshot',0)";
+	$req = "INSERT INTO score VALUES 
+	       (0, NOW(), '$nom', $score,'$screenshot',0)";
 	bd_requete($cnx, $req);
 	
-	//Test si enrregistrement ok en récupérant l'id
+	//Récupère l'id du denier enregistrement
+	//ou 0 si erreur
 	$id = mysqli_insert_id($cnx);        
+	
 	bd_ferme($cnx);
 	
-	//Retourne le nobmre de résultats ajoutés
 	return $id;
 }
-
 
 /**
 * Valide un score dans la base de données 
@@ -150,7 +140,9 @@ function score_valider($id)
 {
 	$cnx = bd_connexion();
 	
-	$req = "UPDATE score SET valider = 1 WHERE id = $id LIMIT 1";
+	$req = "   UPDATE score SET valider = 1
+	           WHERE id = $id
+	           LIMIT 1";
 	
 	bd_requete($cnx, $req);
 	
@@ -165,24 +157,23 @@ function score_valider($id)
 * Supprime un score dans la base de données 
 *
 * @param	int		Id du score à supprimer
-* @param    sting   nom du fichier screenshot
 * @return	int		le nombre d'enregistrements supprimés
 */
 function score_supprimer($id)
 {        		
 	$cnx = bd_connexion();
     
-    //Récupère le nom du screenshot
+    //Récupération du nom de fichier du screenshot à supprimer
     $score = score_charger($id);    
     $screenshot = $score['screenshot'];
 	
-	$requete = "DELETE FROM score WHERE id = $id LIMIT 1";
-			
+	//Suppression du score dans la BD
+	$requete = "DELETE FROM score WHERE id = $id LIMIT 1";			
 	bd_requete($cnx, $requete);
 	
-    $res = mysqli_affected_rows($cnx);
+	$res = mysqli_affected_rows($cnx);
     
-    //Si la suppression et ok, et que le fichier screenshot existe
+    //Si la suppression est ok, et que le fichier screenshot existe, on le supprime
 	if($res and !empty($screenshot) and is_file(UPLOAD_PHOTOS.$screenshot))                               
        @unlink(UPLOAD_PHOTOS.$screenshot);
    
