@@ -9,7 +9,7 @@ if (isset($_POST['submit']))
     if ($_POST['confirmer'] == 'oui')
 	{
 		//Supression du score    	
-		if(score_supprimer($_POST['id'],$_POST['screenshot'])) 
+		if(score_supprimer($_POST['id']))
 			$message = urlencode("Score supprimé !");
 		else
 			$message = urlencode("Suppression impossible pour l'instant !");
