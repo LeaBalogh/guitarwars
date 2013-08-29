@@ -1,7 +1,6 @@
 <?php
 //Inclusion des librairies
 require_once(__DIR__.'/includes/utils.php');
-
 ?><!DOCTYPE html>
 <html lang="fr">
 	<head>
