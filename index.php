@@ -5,7 +5,7 @@ require_once(__DIR__.'/includes/utils.php');
 <html lang="fr">
 	<head>
 		<meta charset="UTF-8">
-		<title>Meilleurs scores | Guitar Wars</title>
+		<title>Meilleurs scores | <?=SITE_NOM ?></title>
 		<link rel="stylesheet" type="text/css" href="style.css" />
 	</head>
 	<body>

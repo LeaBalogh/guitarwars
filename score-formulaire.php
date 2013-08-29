@@ -2,7 +2,7 @@
 <html lang="fr">
 	<head>
 		<meta charset="UTF-8">
-		<title>Ajouter un score | Guitar Wars</title>
+		<title>Ajouter un score | <?=SITE_NOM ?></title>
 		<link rel="stylesheet" type="text/css" href="style.css" />
 	</head>
 	<body>

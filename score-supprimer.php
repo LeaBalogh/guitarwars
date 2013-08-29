@@ -37,7 +37,7 @@ if(strlen($_GET['id']))
 <html lang="fr">
 	<head>
 		<meta charset="UTF-8">
-		<title>Supprimer un score | Guitar Wars</title>
+		<title>Supprimer un score | <?=SITE_NOM ?></title>
 		<link rel="stylesheet" type="text/css" href="style.css" />
 	</head>
 	<body>

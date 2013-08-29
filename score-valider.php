@@ -35,7 +35,7 @@ if(strlen($_GET['id']))
 <html lang="fr">
 	<head>
 		<meta charset="UTF-8">
-		<title>Valider un score | Guitar Wars</title>
+		<title>Valider un score | <?=SITE_NOM ?></title>
 		<link rel="stylesheet" type="text/css" href="style.css" />
 	</head>
 	<body>
