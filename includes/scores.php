@@ -22,7 +22,7 @@ function score_liste($afficher_scores_invalides=false,$tri="score DESC, date ASC
     //Préparation de la requête
     $requete = "SELECT * FROM score";
     
-    if(!$afficher_scores_invalides) 
+    if($afficher_scores_invalides==false) 
         $requete .=" WHERE valider = 1"; 
     
     $requete .=" ORDER BY $tri";
@@ -80,6 +80,7 @@ function score_controle($tab_score)
 	//Nom du joueur
 	if(!isset($tab_score['nom']) or strlen($tab_score['nom']) < 4)
 		$erreurs[] = 'Entrez un login valide ! Le login doit contenir au moins 4 caractères !';
+	
 	//Score
 	if(!isset($tab_score['score']) or !is_numeric($tab_score['score']))
 		$erreurs[] = 'Entrez un score valide !';
@@ -167,9 +168,13 @@ function score_valider($id)
 * @param    sting   nom du fichier screenshot
 * @return	int		le nombre d'enregistrements supprimés
 */
-function score_supprimer($id,$screenshot)
+function score_supprimer($id)
 {        		
 	$cnx = bd_connexion();
+    
+    //Récupère le nom du screenshot
+    $score = score_charger($id);    
+    $screenshot = $score['screenshot'];
 	
 	$requete = "DELETE FROM score WHERE id = $id LIMIT 1";
 			
@@ -179,7 +184,7 @@ function score_supprimer($id,$screenshot)
     
     //Si la suppression et ok, et que le fichier screenshot existe
 	if($res and !empty($screenshot) and is_file(UPLOAD_PHOTOS.$screenshot))                               
-       unlink(UPLOAD_PHOTOS.$screenshot);
+       @unlink(UPLOAD_PHOTOS.$screenshot);
    
 	bd_ferme($cnx);
 	
