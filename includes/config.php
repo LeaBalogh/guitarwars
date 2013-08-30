@@ -2,6 +2,7 @@
 /**
  * Fichier de configuration du site
  * 
+ *
  * @author    	Steve Fallet <steve.fallet@divtec.ch>
  * @copyright	2013 - EMT Porrentruy
  * @version		15.05.2013
