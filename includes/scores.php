@@ -117,8 +117,19 @@ function score_ajouter($tab_score)
 	$score 		= (int) $tab_score['score']; //Cast en entier
 	$nom 		= mysqli_real_escape_string($cnx, $tab_score['nom']);
 	
-	$req = "INSERT INTO score VALUES 
-	       (0, NOW(), '$nom', $score,'$screenshot',0)";
+	$req =  "INSERT INTO  score (
+                                    nom,
+                                    score,
+                                    screenshot,
+                                    valider
+                                 )
+                                 VALUES (
+                                    '$nom',
+                                    $score,
+                                    '$screenshot',
+                                    0
+                                 )";
+    
 	bd_requete($cnx, $req);
 	
 	//Récupère l'id du denier enregistrement
