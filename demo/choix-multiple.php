@@ -10,11 +10,11 @@ error_reporting(E_ALL ^ E_NOTICE);
     <body>
         <h1>PHP - Envoyer un fichier</h1>
         <form enctype="multipart/form-data" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">            
-                <input type="checkbox" name="choix[]" value="V" <?php if(is_array($_POST['choix']) and in_array("V", $_POST['choix'])) echo 'checked="checked"'; ?>>
+                <input type="checkbox" name="choix[]" value="V" <?php if(isset($_POST['choix']) and is_array($_POST['choix']) and in_array("V", $_POST['choix'])) echo 'checked="checked"'; ?>/>
                 Vert
-                <input type="checkbox" name="choix[]" value="B" <?php if(is_array($_POST['choix']) and in_array("B", $_POST['choix'])) echo 'checked="checked"'; ?>>
+                <input type="checkbox" name="choix[]" value="B" <?php if(isset($_POST['choix']) and is_array($_POST['choix']) and in_array("B", $_POST['choix'])) echo 'checked="checked"'; ?>/>
                 Blanc
-                <input type="checkbox" name="choix[]" value="R" <?php if(is_array($_POST['choix']) and in_array("R", $_POST['choix'])) echo 'checked="checked"'; ?>>
+                <input type="checkbox" name="choix[]" value="R" <?php if(isset($_POST['choix']) and is_array($_POST['choix']) and in_array("R", $_POST['choix'])) echo 'checked="checked"'; ?>/>
                 Rouge
                 <input type="submit" name="submit" />          
         </form>
