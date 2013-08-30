@@ -8,7 +8,7 @@
  */
  
 //Site
-define('SITE_NOM',		'Guitar Wars');
+define('SITE_NOM',		'Guitar Wars'); 
 define('SITE_HTTP', 	'http://'.$_SERVER['HTTP_HOST'].'/guitarwars/');
 define('SITE_IMAGES', 	SITE_HTTP.'images/');
 
