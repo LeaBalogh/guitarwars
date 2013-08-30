@@ -129,7 +129,6 @@ function score_ajouter($tab_score)
                                     '$screenshot',
                                     0
                                  )";
-    
 	bd_requete($cnx, $req);
 	
 	//Récupère l'id du denier enregistrement
