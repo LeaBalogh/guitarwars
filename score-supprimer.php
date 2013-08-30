@@ -2,8 +2,36 @@
 //Inclusion des librairies
 require_once(__DIR__.'/includes/utils.php');
 
-// Si la page est appelée par le formulaire
-if (isset($_POST['submit']))
+var_dump($_POST);
+
+//Suppression multiple
+if(isset($_POST['sup_multiple']))
+{
+    foreach ($_POST['idscores'] as $id_score)
+        if(!score_supprimer($id_score))
+             $message = urlencode("Erreur : Tous les scores n'ont pas été supprimés !");    
+    
+    if(empty($message))
+        $message = urlencode("Scores supprimés !");    
+    header("Location: ".SITE_HTTP."admin.php?message=$message");
+    exit;
+}
+
+//Si validations multiple
+if(isset($_POST['val_multiple']))
+{
+    foreach ($_POST['idscores'] as $id_score)
+        if(!score_valider($id_score))
+            $message = urlencode("Erreur : Tous les scores n'ont pas été validés ou certains score étaient déjà valides!");
+    
+    if(empty($message))
+        $message = urlencode("Scores validés !");
+    header("Location: ".SITE_HTTP."admin.php?message=$message");
+    exit;
+}
+
+// Si la page est appelée par le formulaire de suppression
+if(isset($_POST['supprimer']))
 {
 	//Si la suppession a été confirmée    
     if ($_POST['confirmer'] == 'oui')
@@ -56,7 +84,7 @@ if(strlen($_GET['id']))
             <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                 <input type="radio" name="confirmer" value="oui" /> Oui 
                 <input type="radio" name="confirmer" value="non" checked="checked" /> Non <br />
-                <input type="submit" value="Supprimer" name="submit" />                
+                <input type="submit" value="Supprimer" name="supprimer" />                
                 <!-- champs cachés -->
                 <input type="hidden" name="id" value="<?php echo $score['id']; ?>" />
                 <input type="hidden" name="nom" value="<?php echo $score['nom']; ?>" />

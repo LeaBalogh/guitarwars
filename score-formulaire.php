@@ -23,7 +23,7 @@
         ?>
 		
 		<form enctype="multipart/form-data" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-			<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo UPLOAD_MAX_SIZE; ?>" />
+			<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo UPLOAD_MAX_SIZE; ?>"/>
 			
 			<label for="nom">Votre nom :</label>
 			<input type="text" id="nom" name="nom"	value="<?php if (isset($form_nom))echo $form_nom; ?>" />
