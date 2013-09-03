@@ -185,7 +185,7 @@ function score_supprimer($id)
     
     //Si la suppression est ok, et que le fichier screenshot existe, on le supprime
 	if($res and !empty($screenshot) and is_file(UPLOAD_PHOTOS.$screenshot))                               
-       @unlink(UPLOAD_PHOTOS.$screenshot);
+       unlink(UPLOAD_PHOTOS.$screenshot);
    
 	bd_ferme($cnx);
 	
