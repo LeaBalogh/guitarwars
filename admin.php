@@ -65,8 +65,7 @@ require_once(__DIR__.'/includes/utils.php');
     					<td><a href="score-valider.php?id=<?php echo $ligne['id']; ?>">Valider</a></td>
                 	<?php } ?>
                 	<td>
-                	    <input type="checkbox" name="idscores[]" value="<?=$ligne['id']?>"
-                	       <?php if(isset($_POST['idscores']) and is_array($_POST['idscores']) and in_array($ligne['id'], $_POST['idscores'])) echo 'checked="checked"'; ?>/>
+                	    <input type="checkbox" name="idscores[]" value="<?=$ligne['id']?>"/>
                 	</td>
     			</tr>	
     		<?php	
