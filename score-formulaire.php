@@ -29,24 +29,32 @@
 			<input type="text" id="nom" name="nom"	value="<?php if (isset($form_nom))echo $form_nom; ?>" />
 			<br />
 			
-			<label for="score">Ton meilleur score:</label>
+			<label for="score">Ton meilleur score :</label>
 			<input type="text" id="score" name="score" value="<?php if (isset($form_score)) echo $form_score; ?>" />
 			<br />
 			
-			<label for="screenshot">Screen shot:</label>    		
-    		<input type="file" id="screenshot" name="screenshot" />
-    		<br/>
-    		
-    		<select name="pays">
+			<label for="pays">Pays :</label>
+    		<select name="pays" id="pays">
     			<option value="">-- Sélectionnez un pays --</option>
     			<?php
+    			
 	    			$liste_pays = pays_liste();
-					
+				
 					foreach ($liste_pays as $pays) {
-						echo '<option value="'.$pays['id'].'">'.$pays['libelle'].'</option>';
+							var_dump( $pays['id']);	
+						if(isset($_POST['pays']) and $_POST['pays'] == $pays['id'])
+							echo '<option selected="selected" value="'.$pays['id'].'">'.$pays['libelle'].'</option>';
+						else
+							echo '<option value="'.$pays['id'].'">'.$pays['libelle'].'</option>';
+						
 					}
 				?>
     		</select>
+    		<br/>
+    		
+    		<label for="screenshot">Screen shot:</label>    		
+    		<input type="file" id="screenshot" name="screenshot" />
+    		<br/>
     		
     		<p>Note : Le screenshot doit être au format jpeg, png ou gif et ne doit pas dépasser les 20 MO !</p>
     		    	
