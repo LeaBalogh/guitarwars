@@ -37,6 +37,17 @@
     		<input type="file" id="screenshot" name="screenshot" />
     		<br/>
     		
+    		<select name="pays">
+    			<option value="">-- Sélectionnez un pays --</option>
+    			<?php
+	    			$liste_pays = pays_liste();
+					
+					foreach ($liste_pays as $pays) {
+						echo '<option value="'.$pays['id'].'">'.$pays['libelle'].'</option>';
+					}
+				?>
+    		</select>
+    		
     		<p>Note : Le screenshot doit être au format jpeg, png ou gif et ne doit pas dépasser les 20 MO !</p>
     		    	
 			<input type="submit" value="Go Go Go !" name="submit" />

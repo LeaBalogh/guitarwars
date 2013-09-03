@@ -31,13 +31,14 @@ require_once(__DIR__.'/includes/utils.php');
 				<th colspan="2">Score</th>
 				<th>Nom</th>
 				<th>Date</th>
+				<th>Pays</th>
 			</tr>
 		<?php
 		//Charge la 1re ligne du résultat
 		$ligne = mysqli_fetch_array($res);
         
         //Affiche le TOP Score (1re ligne)
-        echo '<tr><td colspan="4" class="topscore">Top score ' . $ligne['score'] . ' pts</td></tr>';
+        echo '<tr><td colspan="5" class="topscore">Top score ' . $ligne['score'] . ' pts</td></tr>';
 		
 		// Parcours le résultat MySQL et construit le tableau HTML
 		do {     			 	
@@ -55,6 +56,7 @@ require_once(__DIR__.'/includes/utils.php');
 				<td><?php echo $ligne['score']; ?></td>
 				<td><?php echo $ligne['nom']; ?></td>
 				<td><?php echo $ligne['date']; ?></td>
+				<td><?php echo $ligne['libelle']; ?></td>
 			</tr>	
 		
 		<?php

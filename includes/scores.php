@@ -8,7 +8,7 @@
  */
 
 /**
-* Sélectionne un score dans la BD et retourne ses données
+* Retourne la liste des scores
 *
 * @param    boolean     Faut-il afficher les score invalides, par défaut non
 * @param    string      Tri de la requête, par défaut score >, date <
@@ -18,15 +18,22 @@ function score_liste($afficher_invalides=false,$tri="score DESC, date ASC")
 {
     $cnx = bd_connexion();    
  
-    $requete = "SELECT * FROM score";
+    $requete = "SELECT *, score.id as scoreId, pays.id as paysId 
+				FROM score, pays
+				WHERE score.pays = pays.id";
+				//LIMIT 0 , 30";
     
     if($afficher_invalides==false) 
-        $requete .=" WHERE valider = 1"; 
+        $requete .=" AND valider = 1"; 
     
     $requete .=" ORDER BY $tri";
          
     $res = bd_requete($cnx, $requete);
     
+    /*$res = bd_requete($cnx, $requete);
+    $temp = mysqli_fetch_array($res);
+	var_dump($temp); exit;*/
+	
     bd_ferme($cnx);    
    
     return $res;
@@ -76,6 +83,10 @@ function score_controle($tab_score)
 	if(!isset($tab_score['score']) or !is_numeric($tab_score['score']))
 		$erreurs[] = 'Entrez un score valide !';
 	
+	//Pays
+	if(!isset($tab_score['pays']) or !is_numeric($tab_score['pays']) or (int) $tab_score['pays'] == 0)
+		$erreurs[] = 'Sélectionnez un pays !';
+	
 	//Si aucun fichier a été envoyé ou qu'il y a eu une erreur de transfert
 	if(!isset($_FILES['screenshot']) or $_FILES['screenshot']['error'])
 	{
@@ -116,18 +127,21 @@ function score_ajouter($tab_score)
 	//Préparation des données : cast, échappement
 	$score 		= (int) $tab_score['score']; //Cast en entier
 	$nom 		= mysqli_real_escape_string($cnx, $tab_score['nom']);
+	$pays 		= (int) $tab_score['pays']; //Cast en entier
 	
 	$req =  "INSERT INTO  score (
                                     nom,
                                     score,
                                     screenshot,
-                                    valider
+                                    valider,
+                                    pays
                                  )
                                  VALUES (
                                     '$nom',
                                     $score,
                                     '$screenshot',
-                                    0
+                                    0,
+                                    $pays
                                  )";
 	bd_requete($cnx, $req);
 	

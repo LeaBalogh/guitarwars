@@ -55,17 +55,17 @@ require_once(__DIR__.'/includes/utils.php');
     				echo'<td><img src="'.$url_screenshot.'" alt="screenshot" class="screenshot"/></td>';			
     				
     				?>
-    				<td><a href="score-supprimer.php?id=<?php echo $ligne['id']; ?>">Supprimer</a></td>
+    				<td><a href="score-supprimer.php?id=<?php echo $ligne['scoreId']; ?>">Supprimer</a></td>
     				
     				<?php //Si le score a déjà été validé
     				if($ligne['valider']>0)
     					echo "<td>OK</td>";
     				else
     				{ ?>
-    					<td><a href="score-valider.php?id=<?php echo $ligne['id']; ?>">Valider</a></td>
+    					<td><a href="score-valider.php?id=<?php echo $ligne['scoreId']; ?>">Valider</a></td>
                 	<?php } ?>
                 	<td>
-                	    <input type="checkbox" name="idscores[]" value="<?=$ligne['id']?>"/>
+                	    <input type="checkbox" name="idscores[]" value="<?=$ligne['scoreId']?>"/>
                 	</td>
     			</tr>	
     		<?php	
