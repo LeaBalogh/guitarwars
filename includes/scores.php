@@ -207,6 +207,60 @@ function score_supprimer($id)
 	return $res;
 }
 
-
-
-
+/**
+* Génère un lien permettant de trié les données d'une requête
+*
+* @param   string  Texte du lien
+* @param   string  Nom de la colonne a trier
+* @param   string  Nom de la colonne actuellement triée
+* @param   string  Sens du tri actuel asc, desc
+* @return  string  Lien html avec les paramètres de tri
+*/
+function lien_tri_score($texte_lien, $nom_col, $tri_actuel_col, $tri_actuel_sens) {
+     $res = "<a href=\"" . $_SERVER['SCRIPT_NAME'] . "?c=";
+     //set column query string value
+     switch($nom_col) {
+          case "score.score":
+               $res .= "1";
+               break;
+          case "score.nom":
+               $res .= "2";
+               break;
+          case "score.date":
+               $res .= "3";
+               break;
+          case "pays.libelle":
+               $res .= "4";
+               break;
+          default:
+               $res .= "0";
+     }
+ 
+     $res .= "&d=";
+ 
+     //reverse sort if the current column is clicked
+     if($nom_col == $tri_actuel_col) {
+          switch($tri_actuel_sens) {
+               case "ASC":
+                    $res .= "1";
+                    break;
+               default:
+                    $res .= "0";
+          }
+     }
+     else {
+          //pass on current sort direction
+          switch($tri_actuel_sens) {
+               case "ASC":
+                    $res .= "0";
+                    break;
+               default:
+                    $res .= "1";
+          }
+     }
+ 
+     //complete link
+     $res .= "\">$texte_lien</a>";
+ 
+     return $res;
+}

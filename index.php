@@ -1,6 +1,42 @@
 <?php
 //Inclusion des librairies
 require_once(__DIR__.'/includes/utils.php');
+
+//Initialisation des variables
+$url_col = null;
+$url_sens = null;
+
+//Récupère les paramètres d'url
+if(isset($_GET['col'])) $url_col = $_GET['col'];
+if(isset($_GET['sens'])) $url_sens = $_GET['sens'];
+
+//Récupère le tri demandé ou applique le tri par défaut
+switch($url_col) {
+     case "1":
+          $col = "score.score";
+          break;
+     case "2":
+          $col = "score.nom";
+          break;
+     case "3":
+          $col = "score.date";
+          break;
+     case "4":
+          $col = "pays.libelle";
+          break;
+     default:
+          $col = "score.score";
+}
+
+//Récupère l'orde du tri : asc ou desc 
+if($url_sens == "1") {
+     $tri = "DESC";
+}
+else {
+     $tri = "ASC";
+}
+
+
 ?><!DOCTYPE html>
 <html lang="fr">
 	<head>
